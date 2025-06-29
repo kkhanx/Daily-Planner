@@ -29,7 +29,7 @@ public class TasksSection implements ActionListener {
 	private JFrame addFrame; //all components of the addFrame JFrame
 	private JPanel addTitle, addScreen;
 	private JLabel ex, addTitle1, tk, st;
-	private JTextField entrtsk, entrtm;
+	private JTextField entrtsk, entrtm; //text fields for the task and remind time
 	private JButton addButton, cnclButton; //addFrame buttons (except for cnclButton, it is also used in the edtFrame)
 	
 	private JFrame edtFrame; //all components of the edtFrame JFrame
@@ -102,7 +102,7 @@ public class TasksSection implements ActionListener {
                 rc.show(e.getComponent(),e.getX(),e.getY());
             }
         }
-    });;
+    });
     
 	tasksScrollPane.setBounds(50, 180, 880, 500);
 
