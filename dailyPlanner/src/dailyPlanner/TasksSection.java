@@ -5,6 +5,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.Timer;
@@ -28,8 +29,7 @@ public class TasksSection implements ActionListener {
 	private JFrame addFrame; //all components of the addFrame JFrame
 	private JPanel addTitle, addScreen;
 	private JLabel ex, addTitle1, tk, st;
-	private JTextField entrtsk;
-	private JFormattedTextField entrtm;
+	private JTextField entrtsk, entrtm; //text fields for the task and remind time
 	private JButton addButton, cnclButton; //addFrame buttons (except for cnclButton, it is also used in the edtFrame)
 	
 	private JFrame edtFrame; //all components of the edtFrame JFrame
@@ -102,7 +102,7 @@ public class TasksSection implements ActionListener {
                 rc.show(e.getComponent(),e.getX(),e.getY());
             }
         }
-    });;
+    });
     
 	tasksScrollPane.setBounds(50, 180, 880, 500);
 
@@ -191,7 +191,8 @@ public class TasksSection implements ActionListener {
 		st.setBackground(new Color(195, 200, 199));
 		st.setBounds(80, 150, 200, 40);
 		
-		entrtm = new JFormattedTextField(ft); //enter reminder time
+		entrtm = new JTextField(); //enter reminder time
+		entrtm.setText("xx:xx xx");
 		entrtm.setFont(smplFont);
 		entrtm.setBounds(200,150,300,40);
 		
@@ -288,11 +289,13 @@ public class TasksSection implements ActionListener {
 			Calendar calendar = Calendar.getInstance();
 			int apm1; 
 			String data = entrtm.getText();
+			System.out.println(data);
 			String hr = data.substring(0, 2);
 			int hr1 = Integer.parseInt(hr);
 			String mnte = data.substring(3, 5);
 			int mnte1 = Integer.parseInt(mnte);
-			String apm = data.substring(6, 8);
+			String apm = data.substring(6);
+
 			
 			if (apm.equalsIgnoreCase("AM")) {
 				apm1 = 0;
@@ -316,10 +319,12 @@ public class TasksSection implements ActionListener {
 			addFrame.dispose();
 			
 		} catch(NumberFormatException x) {
+			System.out.println("here");
 			JOptionPane.showMessageDialog(new JFrame(), "please follow the example", "error", JOptionPane.ERROR_MESSAGE);
 			tasksModel.removeRow(tasksTable.getRowCount()-1);
 			
-		}catch(StringIndexOutOfBoundsException x) {
+		} catch(StringIndexOutOfBoundsException x) {
+			System.out.println("hhere");
 			JOptionPane.showMessageDialog(new JFrame(), "please follow the example", "error", JOptionPane.ERROR_MESSAGE);
 			tasksModel.removeRow(tasksTable.getRowCount()-1);
 		}
@@ -338,8 +343,11 @@ public class TasksSection implements ActionListener {
 			
 		}
 		else if (e.getSource() == addButton) {
-			String data1 = entrtsk.getText(); //task 
-	    	String data2 = entrtm.getText(); //reminder time
+            String data1 = entrtsk.getText(); //task
+			System.out.println("the task is: " + data1);
+	    	String data2 = entrtm.getText();
+			data2 = data2.trim();
+			System.out.println("the time is: " + data2);
 
 	    	Object[] row = { data1, data2 }; //creates row: Object array
 	    	tasksModel.addRow(row);
